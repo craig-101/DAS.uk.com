@@ -1,0 +1,24 @@
+<%- include('partials/head', { title: collection.title }) %>
+<%- include('partials/topbar', { href: backHref, title: collection.title }) %>
+<main class="screen">
+  <div class="meta-row"><span class="chip chip--accent" style="--accent:<%= collection.accent %>"><%= collection.tag %></span><span class="chip"><%= docs.length %> items</span></div>
+  <p class="lead"><%= collection.description %></p>
+
+  <% if (collection.showPlanChips) { %>
+    <div class="planchips">
+      <% Object.entries(plans).forEach(([key, p]) => {
+           const target = docs.find(d => d.plan === key && d.type === 'algorithm'); %>
+        <a class="planchip" href="<%= target ? '/docs/' + target.id : '#' %>">
+          <span class="planbadge" style="background:<%= p.color %>"><%= p.label %></span>
+          <span class="planchip__label">Plan <%= p.label %></span>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <h3 class="eyebrow"><%= collection.showPlanChips ? 'All documents' : 'Documents' %></h3>
+  <ul class="doclist">
+    <% docs.forEach(doc => { %><%- include('partials/doc-row', { doc }) %><% }) %>
+  </ul>
+</main>
+<%- include('partials/foot') %>

@@ -1,0 +1,6 @@
+<nav class="tabbar" aria-label="Main">
+  <a href="/" class="tab<%= tab === 'library' ? ' is-active' : '' %>" <%- tab === 'library' ? 'aria-current="page"' : '' %>><%- include('icon', { name: 'grid' }) %><span>Library</span></a>
+  <a href="/search" class="tab<%= tab === 'search' ? ' is-active' : '' %>" <%- tab === 'search' ? 'aria-current="page"' : '' %>><%- include('icon', { name: 'search' }) %><span>Search</span></a>
+  <a href="/saved" class="tab<%= tab === 'saved' ? ' is-active' : '' %>" <%- tab === 'saved' ? 'aria-current="page"' : '' %>><%- include('icon', { name: 'bookmark' }) %><span>Saved</span></a>
+  <a href="/about" class="tab<%= tab === 'about' ? ' is-active' : '' %>" <%- tab === 'about' ? 'aria-current="page"' : '' %>><%- include('icon', { name: 'info' }) %><span>About</span></a>
+</nav>

@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------------
+# DAS Airway — files that must never be committed
+#
+# Kept IN the repo on purpose: public/docs/ (the rendered page images and
+# thumbnails — the app needs them to run, and the deploy target won't have
+# Python/PyMuPDF to regenerate them) and package-lock.json (reproducible
+# installs on the server).
+# ---------------------------------------------------------------------------
+
+# Dependencies — restored with `npm ci` / `npm install`
+node_modules/
+
+# Secrets and per-machine configuration (PORT, API keys …)
+.env
+.env.*
+!.env.example
+
+# Logs and crash dumps
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Test coverage and build output
+coverage/
+.nyc_output/
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# Python leftovers from scripts/import-das-pdfs.py
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor and OS clutter
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Scratch / temporary files
+tmp/
+*.tmp
+*.bak
+*.orig

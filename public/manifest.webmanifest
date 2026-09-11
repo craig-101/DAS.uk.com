@@ -1,0 +1,15 @@
+{
+  "name": "DAS Airway",
+  "short_name": "DAS Airway",
+  "description": "Difficult Airway Society 2025 guidelines: algorithms, action cards, teaching and drills.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#E4E7ED",
+  "theme_color": "#1864B8",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

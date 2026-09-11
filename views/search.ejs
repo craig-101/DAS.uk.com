@@ -1,0 +1,12 @@
+<%- include('partials/head', { title: 'Search' }) %>
+<header class="pagehead"><h1>Search</h1></header>
+<form class="searchbox" action="/search" method="get" role="search" data-search-form>
+  <%- include('partials/icon', { name: 'search' }) %>
+  <input type="search" name="q" value="<%= q %>" placeholder="Search guidelines & teaching…" aria-label="Search" autocomplete="off" autofocus data-search-input>
+</form>
+<main class="screen">
+  <div data-search-results aria-live="polite">
+    <p class="empty">Type to search titles, plans and collections.</p>
+  </div>
+</main>
+<%- include('partials/foot') %>

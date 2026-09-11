@@ -1,0 +1,18 @@
+<%- include('partials/head', { title: whatsNew.title }) %>
+<%- include('partials/topbar', { href: '/', title: whatsNew.title }) %>
+<main class="screen">
+  <p class="lead"><%= whatsNew.intro %></p>
+  <ol class="changes">
+    <% whatsNew.items.forEach((it, i) => { %>
+      <li class="change">
+        <span class="change__num"><%= i + 1 %></span>
+        <div>
+          <div class="change__title"><%= it.title %></div>
+          <div class="change__body"><%= it.body %></div>
+        </div>
+      </li>
+    <% }) %>
+  </ol>
+  <a class="btn btn--primary btn--block" href="<%= whatsNew.cta.href %>"><%= whatsNew.cta.label %> <%- include('partials/icon', { name: 'chevron-right', className: 'icon--sm' }) %></a>
+</main>
+<%- include('partials/foot') %>

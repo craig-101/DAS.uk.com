@@ -1,0 +1,20 @@
+<li class="docrow">
+  <a class="docrow__link" href="<%= doc.href %>"<%- doc.openPdf ? ' target="_blank" rel="noopener"' : '' %>>
+    <div class="docrow__thumb<%= doc.orientation === 'portrait' ? ' is-portrait' : '' %>">
+      <img src="<%= doc.thumb %>" alt="" loading="lazy">
+    </div>
+    <div class="docrow__body">
+      <div class="docrow__title"><%= doc.title %><% if (doc.isNew) { %><span class="pill pill--new">New</span><% } %></div>
+      <div class="docrow__sub"><%= doc.subtitle %></div>
+      <div class="docrow__type"><i style="background:<%= doc.typeInfo.color %>"></i><%= doc.typeInfo.label %></div>
+    </div>
+    <% if (doc.planInfo) { %>
+      <span class="planbadge" style="background:<%= doc.planInfo.color %>"><%= doc.planInfo.label %></span>
+    <% } else if (doc.openPdf) { %>
+      <span class="docrow__pages">PDF</span>
+    <% } else { %>
+      <span class="docrow__pages"><%= doc.pageCount %>p</span>
+    <% } %>
+  </a>
+  <button class="bookmark" type="button" data-bookmark="<%= doc.id %>" aria-label="Save <%= doc.title %>" aria-pressed="false"><%- include('icon', { name: 'bookmark' }) %></button>
+</li>

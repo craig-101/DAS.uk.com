@@ -1,0 +1,34 @@
+<%# Shown when the browser has no one-click install prompt. JS reveals the
+    steps matching the visitor's platform (data-platform) and hides the rest. %>
+<dialog class="sheet" data-install-sheet aria-labelledby="install-title">
+  <form method="dialog" class="sheet__inner">
+    <div class="sheet__head">
+      <h2 class="sheet__title" id="install-title">Add <%= app.name %> to your <span data-install-target>desktop</span></h2>
+      <button class="sheet__close" type="submit" aria-label="Close"><%- include('icon', { name: 'close' }) %></button>
+    </div>
+    <p class="sheet__lead">Get a shortcut that opens the library in its own window, like a native app.</p>
+
+    <ol class="sheet__steps" data-platform="ios" hidden>
+      <li>Tap the <strong>Share</strong> button <%- include('icon', { name: 'share', className: 'icon--sm' }) %> in Safari.</li>
+      <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
+      <li>Tap <strong>Add</strong>.</li>
+    </ol>
+
+    <ol class="sheet__steps" data-platform="mac-safari" hidden>
+      <li>In the Safari menu bar choose <strong>File → Add to Dock…</strong></li>
+      <li>Click <strong>Add</strong>.</li>
+    </ol>
+
+    <ol class="sheet__steps" data-platform="firefox" hidden>
+      <li>Drag the padlock (or page icon) from the address bar onto your desktop to create a shortcut.</li>
+      <li>Or press <strong>Ctrl/⌘ + D</strong> to bookmark this page.</li>
+    </ol>
+
+    <ol class="sheet__steps" data-platform="other" hidden>
+      <li>Open the browser menu <strong>⋮</strong> in the top right.</li>
+      <li>Choose <strong>Install <%= app.name %></strong> (or <strong>Add to Home screen</strong> on a phone).</li>
+    </ol>
+
+    <button class="btn btn--primary btn--block" type="submit">Done</button>
+  </form>
+</dialog>

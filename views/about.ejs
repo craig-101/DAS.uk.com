@@ -1,0 +1,32 @@
+<%- include('partials/head', { title: 'About' }) %>
+<header class="pagehead"><h1>About</h1></header>
+<main class="screen">
+  <div class="card">
+    <div class="brand" style="padding:0 0 12px">
+      <a class="brand__link" href="https://das.uk.com" target="_blank" rel="noopener" aria-label="Difficult Airway Society website (opens in a new tab)"><img class="brand__logo" src="/img/das-logo.png" alt="Difficult Airway Society" width="44" height="44"></a>
+      <div><div class="brand__name"><%= app.name %></div><div class="brand__tag"><%= app.tagline %></div></div>
+    </div>
+    <p class="lead">A quick-reference library for the 2025 Difficult Airway Society guidelines: algorithms, action cards, teaching sessions and team drills, all in one place and readable offline once loaded.</p>
+  </div>
+
+  <h3 class="eyebrow">In this library</h3>
+  <ul class="guidelines">
+    <% collections.forEach(c => { %>
+      <li class="guideline">
+        <span class="swatch" style="background:<%= c.accent %>"></span>
+        <div><div class="guideline__title"><%= c.title %></div><div class="guideline__meta"><%= c.subtitle %></div></div>
+        <span class="chip"><%= c.docs.length %></span>
+      </li>
+    <% }) %>
+  </ul>
+
+  <h3 class="eyebrow">Version</h3>
+  <div class="card">
+    <div class="kv"><span>Guideline edition</span><span>2025</span></div>
+    <div class="kv"><span>App version</span><span>1.0.0</span></div>
+    <div class="kv"><span>Source</span><span>das.uk.com</span></div>
+  </div>
+
+  <p class="disclaimer"><%- include('partials/icon', { name: 'alert', className: 'icon--sm' }) %><%= app.disclaimer %></p>
+</main>
+<%- include('partials/foot') %>

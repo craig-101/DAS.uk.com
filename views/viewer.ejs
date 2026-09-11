@@ -1,0 +1,48 @@
+<%- include('partials/head', { title: doc.title, dark: true, tab: null }) %>
+<div class="viewer" data-viewer data-doc="<%= doc.id %>">
+  <header class="viewer__bar">
+    <a class="iconbtn" href="<%= backHref %>" aria-label="Close"><%- include('partials/icon', { name: 'chevron-down' }) %></a>
+    <div class="viewer__heading">
+      <div class="viewer__title"><%= doc.title %></div>
+      <div class="viewer__sub"><%= doc.planInfo && doc.collectionInfo.tag !== 'Plan ' + doc.planInfo.label ? 'Plan ' + doc.planInfo.label + ' · ' : '' %><%= doc.collectionInfo.tag %><span data-page-label></span></div>
+    </div>
+    <button class="iconbtn bookmark" type="button" data-bookmark="<%= doc.id %>" aria-label="Save" aria-pressed="false"><%- include('partials/icon', { name: 'bookmark' }) %></button>
+    <button class="iconbtn" type="button" data-share aria-label="Share"><%- include('partials/icon', { name: 'share' }) %></button>
+  </header>
+
+  <div class="viewer__stage" data-stage>
+    <div class="viewer__canvas" data-canvas>
+      <% doc.pageUrls.forEach((url, i) => { %>
+        <img class="viewer__page<%= i === 0 ? ' is-current' : '' %>" src="<%= url %>" alt="<%= doc.title %>, page <%= i + 1 %>" data-page="<%= i %>" <%= i > 0 ? 'loading="lazy"' : '' %>>
+      <% }) %>
+    </div>
+  </div>
+
+  <footer class="viewer__controls">
+    <% if (doc.pageCount > 1) { %>
+      <div class="dots" data-dots aria-hidden="true">
+        <% doc.pageUrls.forEach((u, i) => { %><i class="<%= i === 0 ? 'is-current' : '' %>"></i><% }) %>
+      </div>
+    <% } %>
+    <div class="viewer__toolbar">
+      <% if (doc.pageCount > 1) { %>
+        <button class="roundbtn" type="button" data-prev aria-label="Previous page"><%- include('partials/icon', { name: 'chevron-left' }) %></button>
+      <% } else if (prevDoc) { %>
+        <a class="roundbtn" href="<%= prevDoc.href %>"<%- prevDoc.openPdf ? ' target="_blank" rel="noopener"' : '' %> aria-label="Previous: <%= prevDoc.title %>"><%- include('partials/icon', { name: 'chevron-left' }) %></a>
+      <% } else { %><span class="roundbtn is-disabled" aria-hidden="true"><%- include('partials/icon', { name: 'chevron-left' }) %></span><% } %>
+
+      <div class="zoom">
+        <button type="button" data-zoom-out aria-label="Zoom out"><%- include('partials/icon', { name: 'minus' }) %></button>
+        <span class="zoom__value" data-zoom-value>100%</span>
+        <button type="button" data-zoom-in aria-label="Zoom in"><%- include('partials/icon', { name: 'plus' }) %></button>
+      </div>
+
+      <% if (doc.pageCount > 1) { %>
+        <button class="roundbtn" type="button" data-next aria-label="Next page"><%- include('partials/icon', { name: 'chevron-right' }) %></button>
+      <% } else if (nextDoc) { %>
+        <a class="roundbtn" href="<%= nextDoc.href %>"<%- nextDoc.openPdf ? ' target="_blank" rel="noopener"' : '' %> aria-label="Next: <%= nextDoc.title %>"><%- include('partials/icon', { name: 'chevron-right' }) %></a>
+      <% } else { %><span class="roundbtn is-disabled" aria-hidden="true"><%- include('partials/icon', { name: 'chevron-right' }) %></span><% } %>
+    </div>
+  </footer>
+</div>
+<%- include('partials/foot', { tab: null }) %>
