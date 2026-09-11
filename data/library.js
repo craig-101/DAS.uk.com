@@ -70,7 +70,8 @@ const plans = {
 //   label    Shown as the small coloured tag on each document row.
 //   plural   Title of the tile in "Browse by type" and of that type's page.
 //   icon     Icon on the tile. Choose from: layers, alert, layout, file, book,
-//            users, activity, play, grid, square, info, bookmark, share, download, arrow.
+//            users, activity, play, presentation, grid, square, info, bookmark,
+//            share, download, arrow.
 //            (Full list in views/partials/icon.ejs.)
 //   color    Tag/tile colour, and the header colour of placeholder pages
 //            for documents of this type that have no `plan`.
@@ -88,6 +89,7 @@ const types = {
   drill:             { label: 'Drill',             plural: 'Drills',             icon: 'users',    color: '#BE185D' },
   simulation:        { label: 'Simulation',        plural: 'Simulations',        icon: 'activity', color: '#0E7490' },
   video:             { label: 'Video',             plural: 'Videos',             icon: 'play',     color: '#EB512D' },
+  slides:            { label: 'Slides',            plural: 'Slide decks',        icon: 'presentation', color: '#7C3AED' },
 };
 
 
@@ -168,13 +170,13 @@ const collections = [
       'Short case-based videos showing the stepwise application of the 2025 algorithms, plus pre-recorded talks introducing the guideline. Videos open on Vimeo or play directly.',
   },
   {
-    id: 'other-guidelines',
-    title: 'Other DAS guidelines',
-    subtitle: 'ATI · extubation · obstetric · ICU · thyroid haematoma',
-    tag: 'Guidelines',
-    accent: '#0F766E',
+    id: 'airdeck',
+    title: 'AirDeck',
+    subtitle: 'PowerPoint slides for teaching',
+    tag: 'Education',
+    accent: '#7C3AED',
     description:
-      'Algorithms and key figures from the other DAS guidelines, as published on das.uk.com.',
+      'Ready-made slide decks for trainers and airway leads: a full overview of the 2025 guideline, a short "what\'s new" set, and a human factors session. Downloads as PowerPoint.',
   },
   {
     id: 'resources',
@@ -184,6 +186,15 @@ const collections = [
     accent: '#6B7280',
     description:
       'Suggested contents and drawer labels for the difficult airway trolley, and patient information on awake tracheal intubation.',
+  },
+  {
+    id: 'other-guidelines',
+    title: 'Other DAS guidelines',
+    subtitle: 'ATI · extubation · obstetric · ICU · thyroid haematoma',
+    tag: 'Guidelines',
+    accent: '#0F766E',
+    description:
+      'Algorithms and key figures from the other DAS guidelines, as published on das.uk.com.',
   },
 ];
 
@@ -329,6 +340,29 @@ const documents = [
   { id: 'talk-whats-new-2025',          collection: 'videos', title: 'What’s new in the 2025 guidelines', subtitle: 'Pre-recorded talk', type: 'video', isNew: true, orientation: 'landscape',
     link: 'https://das.uk.com/wp-content/uploads/2025/12/video1850929497.mp4' },
 
+  // ── AirDeck ─────────────────────────────────────────────────────────────────
+  // Source: das.uk.com/airdeck. These download the PowerPoint files via `link`;
+  // thumb.jpg is the first slide (the import script converts with LibreOffice).
+  { id: 'airdeck-guidelines-overview', collection: 'airdeck', title: 'DAS 2025 guidelines — full overview', subtitle: '55 slides · PowerPoint · 3.7 MB', type: 'slides', orientation: 'landscape',
+    link: 'https://das.uk.com/wp-content/uploads/2025/11/DAS-Intubation-Guidelines_2025.pptx' },
+  { id: 'airdeck-whats-new',           collection: 'airdeck', title: 'What’s new in 2025 — teaching slides', subtitle: '8 slides · PowerPoint', type: 'slides', orientation: 'landscape',
+    link: 'https://das.uk.com/wp-content/uploads/2025/11/Whats-new-teaching-slides-.pptx' },
+  { id: 'airdeck-human-factors',       collection: 'airdeck', title: 'Human factors — teaching slides',     subtitle: '9 slides · PowerPoint', type: 'slides', isNew: true, orientation: 'landscape',
+    link: 'https://das.uk.com/wp-content/uploads/2026/05/AirDeck-Human-Factors-Final_AE.pptx' },
+
+  // ── Trolley & patient information ───────────────────────────────────────────
+  // Source: das.uk.com/DA-trolley and das.uk.com/patient-information (PDFs)
+  { id: 'trolley-contents',       collection: 'resources', title: 'Airway trolley — suggested contents', subtitle: 'Adult unanticipated difficult airway trolley', type: 'pdf', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2025/12/DAS-Adult-Unanticipated-Difficult-Airway-Trolley-without-images-V3.pdf' },
+  { id: 'trolley-labels',         collection: 'resources', title: 'Airway trolley — drawer labels',      subtitle: 'Printable Plan A–D drawer labels', type: 'pdf', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2025/12/DAS-Unanticipated-DAT-V4.pdf' },
+  { id: 'ati-infographic',        collection: 'resources', title: 'Awake intubation — infographic',      subtitle: 'What to expect, step by step', type: 'pdf', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2024/09/ATI-Infographic-FINAL-Feb-2023pdf.pdf' },
+  { id: 'ati-patient-info',       collection: 'resources', title: 'Awake intubation — patient guide',    subtitle: 'Patient information leaflet · English', type: 'pdf', orientation: 'portrait',
+    pdf: 'https://daswebsite.s3.eu-west-1.amazonaws.com/AWAKE+INTUBATION+Patient+Information+v9+June+2022+final+version.pdf' },
+  { id: 'ati-patient-info-welsh', collection: 'resources', title: 'Awake intubation — patient guide (Cymraeg)', subtitle: 'Patient information leaflet · Welsh', type: 'pdf', orientation: 'portrait',
+    pdf: 'https://daswebsite.s3.eu-west-1.amazonaws.com/AWAKE+INTUBATION+Patient+Information+v8+April+2022+%28Welsh%29.pdf' },
+
   // ── Other DAS guidelines ────────────────────────────────────────────────────
   // Source: das.uk.com/guidelines. Each guideline has two entries: the
   // algorithms/figures (images from the DAS page, shown in the app's viewer)
@@ -356,19 +390,6 @@ const documents = [
     pdf: 'https://das.uk.com/wp-content/uploads/2024/07/Supporting-Information-Appendix-S3_R1.pdf' },
   { id: 'cervical-spine-guideline-pdf', collection: 'other-guidelines', title: 'Airway management in cervical spine injury', subtitle: 'Full guideline · Anaesthesia 2024 · open access', type: 'pdf', orientation: 'portrait', isNew: true,
     pdf: 'https://associationofanaesthetists-publications.onlinelibrary.wiley.com/doi/pdf/10.1111/anae.16290' },
-
-  // ── Trolley & patient information ───────────────────────────────────────────
-  // Source: das.uk.com/DA-trolley and das.uk.com/patient-information (PDFs)
-  { id: 'trolley-contents',       collection: 'resources', title: 'Airway trolley — suggested contents', subtitle: 'Adult unanticipated difficult airway trolley', type: 'pdf', orientation: 'portrait',
-    pdf: 'https://das.uk.com/wp-content/uploads/2025/12/DAS-Adult-Unanticipated-Difficult-Airway-Trolley-without-images-V3.pdf' },
-  { id: 'trolley-labels',         collection: 'resources', title: 'Airway trolley — drawer labels',      subtitle: 'Printable Plan A–D drawer labels', type: 'pdf', orientation: 'portrait',
-    pdf: 'https://das.uk.com/wp-content/uploads/2025/12/DAS-Unanticipated-DAT-V4.pdf' },
-  { id: 'ati-infographic',        collection: 'resources', title: 'Awake intubation — infographic',      subtitle: 'What to expect, step by step', type: 'pdf', orientation: 'portrait',
-    pdf: 'https://das.uk.com/wp-content/uploads/2024/09/ATI-Infographic-FINAL-Feb-2023pdf.pdf' },
-  { id: 'ati-patient-info',       collection: 'resources', title: 'Awake intubation — patient guide',    subtitle: 'Patient information leaflet · English', type: 'pdf', orientation: 'portrait',
-    pdf: 'https://daswebsite.s3.eu-west-1.amazonaws.com/AWAKE+INTUBATION+Patient+Information+v9+June+2022+final+version.pdf' },
-  { id: 'ati-patient-info-welsh', collection: 'resources', title: 'Awake intubation — patient guide (Cymraeg)', subtitle: 'Patient information leaflet · Welsh', type: 'pdf', orientation: 'portrait',
-    pdf: 'https://daswebsite.s3.eu-west-1.amazonaws.com/AWAKE+INTUBATION+Patient+Information+v8+April+2022+%28Welsh%29.pdf' },
 
 ];
 

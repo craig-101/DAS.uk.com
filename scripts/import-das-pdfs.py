@@ -133,6 +133,10 @@ THUMBS = {
     # Airway trolley                     https://das.uk.com/DA-trolley/
     "trolley-contents": f"{UP}/2025/12/DAS-Adult-Unanticipated-Difficult-Airway-Trolley-without-images-V3.pdf",
     "trolley-labels":   f"{UP}/2025/12/DAS-Unanticipated-DAT-V4.pdf",
+    # AirDeck (PowerPoint — converted with LibreOffice if installed)  https://das.uk.com/airdeck/
+    "airdeck-guidelines-overview": f"{UP}/2025/11/DAS-Intubation-Guidelines_2025.pptx",
+    "airdeck-whats-new":           f"{UP}/2025/11/Whats-new-teaching-slides-.pptx",
+    "airdeck-human-factors":       f"{UP}/2026/05/AirDeck-Human-Factors-Final_AE.pptx",
     # Patient information                https://das.uk.com/patient-information/
     "ati-infographic":        f"{UP}/2024/09/ATI-Infographic-FINAL-Feb-2023pdf.pdf",
     "ati-patient-info":       f"{S3}/AWAKE+INTUBATION+Patient+Information+v9+June+2022+final+version.pdf",
@@ -187,9 +191,26 @@ def save_images(doc_id: str, files: list, quality: int) -> int:
     return len(files)
 
 
+def as_pdf(f: Path) -> Path:
+    """PowerPoint files are converted to PDF with LibreOffice (soffice) first."""
+    if f.suffix.lower() not in (".pptx", ".ppt"):
+        return f
+    import shutil
+    import subprocess
+    soffice = shutil.which("soffice") or "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+    if not Path(soffice).exists():
+        raise RuntimeError("LibreOffice (soffice) is needed to render PowerPoint thumbnails")
+    pdf = f.with_suffix(".pdf")
+    if not pdf.exists():
+        subprocess.run([soffice, "--headless", "--convert-to", "pdf", "--outdir", str(f.parent), str(f)],
+                       check=True, capture_output=True, timeout=300)
+    return pdf
+
+
 def save_thumb(doc_id: str, pdf: Path, quality: int) -> None:
     out = DOCS / doc_id
     out.mkdir(parents=True, exist_ok=True)
+    pdf = as_pdf(pdf)
     with pymupdf.open(pdf) as d:
         d[0].get_pixmap(dpi=110, alpha=False).save(out / "thumb.jpg", jpg_quality=quality)
 
