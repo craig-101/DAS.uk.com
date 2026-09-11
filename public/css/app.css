@@ -42,6 +42,27 @@ h1, h2, h3, p { margin: 0; }
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
+/* Hover / focus feedback on tappable cards — pointer devices only, so touch
+   screens don't get a "stuck" hover after a tap. */
+.collection, .tile, .planchip, .guideline, .hero, .docrow__link, .tab {
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease, background-color .15s ease, color .15s ease;
+}
+@media (hover: hover) {
+  .collection:hover, .tile:hover, .planchip:hover, a.guideline:hover {
+    box-shadow: 0 1px 3px rgba(17, 24, 39, .08), 0 4px 10px rgba(17, 24, 39, .06);
+  }
+  .collection:hover .collection__row::before { width: 7px; }
+  .tile:hover .tile__title, .planchip:hover .planchip__label { color: var(--blue); }
+  .hero:hover { box-shadow: 0 4px 14px rgba(23, 56, 121, .25); }
+  .docrow__link:hover { background: var(--blue-soft); }
+  .docrow__link:hover .docrow__title { color: var(--blue); }
+  .tab:hover { color: var(--blue-deep); }
+  .bookmark:hover .icon { color: var(--blue); }
+}
+.collection:focus-visible, .tile:focus-visible, .planchip:focus-visible, .hero:focus-visible { outline-offset: 3px; }
+.collection:focus-visible .collection__row::before { width: 7px; }
+.docrow__link:focus-visible { outline-offset: -2px; background: var(--blue-soft); }
+
 /* App shell — fills the full viewport */
 .phone {
   position: relative;
@@ -183,7 +204,7 @@ body.is-dark .phone { background: #000; }
 .collection__row { display: flex; align-items: center; gap: 10px; padding: 12px 12px 12px 0; }
 .collection__row::before {
   content: ""; width: 4px; align-self: stretch; margin-right: 2px; border-radius: 0 3px 3px 0;
-  background: var(--accent);
+  background: var(--accent); transition: width .15s ease;
 }
 .collection__text { flex: 1; min-width: 0; }
 .collection__title { font-weight: 700; font-size: 15.5px; }
