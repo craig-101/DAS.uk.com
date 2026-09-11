@@ -1,7 +1,7 @@
 /* DAS Airway — service worker.
    Network-first so edits show up immediately; falls back to the cache when
    offline, so pages and documents you've already opened keep working. */
-const CACHE = 'das-airway-v1';
+const CACHE = 'das-airway-v2'; // bump to drop everything cached under the old name
 
 self.addEventListener('install', () => self.skipWaiting());
 
