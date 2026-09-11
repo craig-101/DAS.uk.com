@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { Readable } = require('stream');
 const lib = require('./data/library');
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public'), { redirect: false }));
 
 const DOCS_DIR = path.join(__dirname, 'public', 'docs');
 const IMAGE_EXT = /\.(png|jpe?g|webp|svg|gif)$/i;
+const OFFICE_FILE = /\.(pptx?|docx?|xlsx?)(\?.*)?$/i;
 const THUMB_FILE = /^thumb\.(png|jpe?g|webp|svg|gif)$/i;
 
 /** Image files in public/docs/<id>/ (empty if the folder doesn't exist). */
@@ -75,6 +77,10 @@ function hydrate(doc) {
   const pdf = doc.pdf ? assetUrl(doc.id, doc.pdf) : null;
   const link = pdf || (doc.link ? assetUrl(doc.id, doc.link) : null);
   const opensLink = !!link;
+  // Office files must be saved, not opened in a tab (Chrome shows "Couldn't
+  // load plugin"). Remote ones are streamed via /download/<id> so the browser
+  // gets a same-origin URL with a download header.
+  const download = !!link && OFFICE_FILE.test(link);
   return {
     ...doc,
     pageUrls,
@@ -82,8 +88,9 @@ function hydrate(doc) {
     thumb,
     pdf,
     opensLink,
+    download,
     linkLabel: pdf ? 'PDF' : lib.types[doc.type]?.label || 'Link',
-    href: opensLink ? link : `/docs/${doc.id}`,
+    href: !opensLink ? `/docs/${doc.id}` : download && !link.startsWith('/') ? `/download/${doc.id}` : link,
     planInfo: doc.plan ? lib.plans[doc.plan] : null,
     typeInfo: lib.types[doc.type],
     collectionInfo: lib.collections.find((c) => c.id === doc.collection),
@@ -171,6 +178,26 @@ app.get('/docs/:id', (req, res) => {
   }));
 });
 
+/** Stream a remote Office file (PowerPoint etc.) with a download header. */
+app.get('/download/:id', async (req, res) => {
+  const raw = lib.documents.find((d) => d.id === req.params.id);
+  const url = raw?.link && OFFICE_FILE.test(raw.link) ? assetUrl(raw.id, raw.link) : null;
+  if (!url || url.startsWith('/')) return res.sendStatus(404);
+  try {
+    const upstream = await fetch(url, { headers: { 'User-Agent': 'DAS-Airway' } });
+    if (!upstream.ok || !upstream.body) return res.sendStatus(502);
+    const name = decodeURIComponent(new URL(url).pathname.split('/').pop()).replace(/["\r\n]/g, '');
+    res.set('Content-Type', upstream.headers.get('content-type') || 'application/octet-stream');
+    res.set('Content-Disposition', `attachment; filename="${name}"`);
+    res.set('Cache-Control', 'public, max-age=86400');
+    const len = upstream.headers.get('content-length');
+    if (len) res.set('Content-Length', len);
+    Readable.fromWeb(upstream.body).pipe(res);
+  } catch {
+    res.sendStatus(502);
+  }
+});
+
 app.get('/search', (req, res) => {
   res.render('search', base({ tab: 'search', q: (req.query.q || '').toString() }));
 });
@@ -192,7 +219,7 @@ app.get('/api/library', (req, res) => {
       typeLabel: d.typeInfo.label, typeColor: d.typeInfo.color,
       plan: d.plan || null, planLabel: d.planInfo?.label || null, planColor: d.planInfo?.color || null,
       isNew: !!d.isNew, pageCount: d.pageCount, thumb: d.thumb, orientation: d.orientation || 'landscape',
-      href: d.href, opensLink: d.opensLink, linkLabel: d.linkLabel,
+      href: d.href, opensLink: d.opensLink, download: d.download, linkLabel: d.linkLabel,
       collection: d.collection, collectionTitle: d.collectionInfo?.title,
     })),
   });

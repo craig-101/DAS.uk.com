@@ -1,5 +1,5 @@
 <li class="docrow">
-  <a class="docrow__link" href="<%= doc.href %>"<%- doc.opensLink ? ' target="_blank" rel="noopener"' : '' %>>
+  <a class="docrow__link" href="<%= doc.href %>"<%- doc.download ? ' download' : doc.opensLink ? ' target="_blank" rel="noopener"' : '' %>>
     <div class="docrow__thumb<%= doc.orientation === 'portrait' ? ' is-portrait' : '' %>">
       <img src="<%= doc.thumb %>" alt="" loading="lazy">
     </div>

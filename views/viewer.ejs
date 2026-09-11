@@ -28,7 +28,7 @@
       <% if (doc.pageCount > 1) { %>
         <button class="roundbtn" type="button" data-prev aria-label="Previous page"><%- include('partials/icon', { name: 'chevron-left' }) %></button>
       <% } else if (prevDoc) { %>
-        <a class="roundbtn" href="<%= prevDoc.href %>"<%- prevDoc.opensLink ? ' target="_blank" rel="noopener"' : '' %> aria-label="Previous: <%= prevDoc.title %>"><%- include('partials/icon', { name: 'chevron-left' }) %></a>
+        <a class="roundbtn" href="<%= prevDoc.href %>"<%- prevDoc.download ? ' download' : prevDoc.opensLink ? ' target="_blank" rel="noopener"' : '' %> aria-label="Previous: <%= prevDoc.title %>"><%- include('partials/icon', { name: 'chevron-left' }) %></a>
       <% } else { %><span class="roundbtn is-disabled" aria-hidden="true"><%- include('partials/icon', { name: 'chevron-left' }) %></span><% } %>
 
       <div class="zoom">
@@ -40,7 +40,7 @@
       <% if (doc.pageCount > 1) { %>
         <button class="roundbtn" type="button" data-next aria-label="Next page"><%- include('partials/icon', { name: 'chevron-right' }) %></button>
       <% } else if (nextDoc) { %>
-        <a class="roundbtn" href="<%= nextDoc.href %>"<%- nextDoc.opensLink ? ' target="_blank" rel="noopener"' : '' %> aria-label="Next: <%= nextDoc.title %>"><%- include('partials/icon', { name: 'chevron-right' }) %></a>
+        <a class="roundbtn" href="<%= nextDoc.href %>"<%- nextDoc.download ? ' download' : nextDoc.opensLink ? ' target="_blank" rel="noopener"' : '' %> aria-label="Next: <%= nextDoc.title %>"><%- include('partials/icon', { name: 'chevron-right' }) %></a>
       <% } else { %><span class="roundbtn is-disabled" aria-hidden="true"><%- include('partials/icon', { name: 'chevron-right' }) %></span><% } %>
     </div>
   </footer>
