@@ -1,5 +1,5 @@
 <li class="docrow">
-  <a class="docrow__link" href="<%= doc.href %>"<%- doc.openPdf ? ' target="_blank" rel="noopener"' : '' %>>
+  <a class="docrow__link" href="<%= doc.href %>"<%- doc.opensLink ? ' target="_blank" rel="noopener"' : '' %>>
     <div class="docrow__thumb<%= doc.orientation === 'portrait' ? ' is-portrait' : '' %>">
       <img src="<%= doc.thumb %>" alt="" loading="lazy">
     </div>
@@ -10,8 +10,8 @@
     </div>
     <% if (doc.planInfo) { %>
       <span class="planbadge" style="background:<%= doc.planInfo.color %>"><%= doc.planInfo.label %></span>
-    <% } else if (doc.openPdf) { %>
-      <span class="docrow__pages">PDF</span>
+    <% } else if (doc.opensLink) { %>
+      <span class="docrow__pages"><%= doc.linkLabel %></span>
     <% } else { %>
       <span class="docrow__pages"><%= doc.pageCount %>p</span>
     <% } %>

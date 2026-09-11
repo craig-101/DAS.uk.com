@@ -84,12 +84,13 @@ Bare filenames are relative to `public/docs/<id>/`; anything starting
 with `/` or `http` is used as-is. Explicit fields win over files found
 in the folder.
 
-### Link to a PDF
+### Link to a PDF, video or web page
 
-Add `pdf` to a document (same path rules). Tapping it then opens the
-PDF in a new tab instead of the page viewer — used for the "Complete
-algorithm set" (a local file) and the eFONA action cards (links to
-das.uk.com). Page images, if present, are only used for the thumbnail.
+Add `pdf` (for PDFs) or `link` (for anything else — Vimeo videos, MP4s,
+web pages) to a document. Tapping it then opens that URL in a new tab
+instead of the page viewer, and the row shows "PDF" / "Video" in place
+of the page count. Page images, if present, are only used for the
+thumbnail.
 
 ```js
 { id: 'algorithms-a4-set', ..., type: 'pdf', pdf: 'DAS-2025-algorithms-A4.pdf' }

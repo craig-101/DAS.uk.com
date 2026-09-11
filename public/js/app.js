@@ -90,10 +90,10 @@
   function docRow(d) {
     const badge = d.plan
       ? `<span class="planbadge" style="background:${d.planColor}">${esc(d.planLabel)}</span>`
-      : `<span class="docrow__pages">${d.openPdf ? 'PDF' : d.pageCount + 'p'}</span>`;
+      : `<span class="docrow__pages">${d.opensLink ? esc(d.linkLabel) : d.pageCount + 'p'}</span>`;
     const portrait = d.orientation === 'portrait';
     return `<li class="docrow">
-      <a class="docrow__link" href="${esc(d.href)}"${d.openPdf ? ' target="_blank" rel="noopener"' : ''}>
+      <a class="docrow__link" href="${esc(d.href)}"${d.opensLink ? ' target="_blank" rel="noopener"' : ''}>
         <div class="docrow__thumb${portrait ? ' is-portrait' : ''}"><img src="${esc(d.thumb)}" alt="" loading="lazy"></div>
         <div class="docrow__body">
           <div class="docrow__title">${esc(d.title)}${d.isNew ? '<span class="pill pill--new">New</span>' : ''}</div>

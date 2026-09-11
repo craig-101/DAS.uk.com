@@ -70,7 +70,7 @@ const plans = {
 //   label    Shown as the small coloured tag on each document row.
 //   plural   Title of the tile in "Browse by type" and of that type's page.
 //   icon     Icon on the tile. Choose from: layers, alert, layout, file, book,
-//            users, activity, grid, square, info, bookmark, share, download, arrow.
+//            users, activity, play, grid, square, info, bookmark, share, download, arrow.
 //            (Full list in views/partials/icon.ejs.)
 //   color    Tag/tile colour, and the header colour of placeholder pages
 //            for documents of this type that have no `plan`.
@@ -87,6 +87,7 @@ const types = {
   'facilitator-guide': { label: 'Facilitator guide', plural: 'Facilitator guides', icon: 'book', color: '#7C3AED' },
   drill:             { label: 'Drill',             plural: 'Drills',             icon: 'users',    color: '#BE185D' },
   simulation:        { label: 'Simulation',        plural: 'Simulations',        icon: 'activity', color: '#0E7490' },
+  video:             { label: 'Video',             plural: 'Videos',             icon: 'play',     color: '#EB512D' },
 };
 
 
@@ -158,6 +159,15 @@ const collections = [
       'Scripted simulation scenarios with debrief guides for the 2025 guideline: a novice scenario and interprofessional (IPE) scenarios for Plans A to D.',
   },
   {
+    id: 'videos',
+    title: 'AirClips & Talks',
+    subtitle: 'Short explainer videos · pre-recorded talks',
+    tag: 'Video',
+    accent: '#EB512D',
+    description:
+      'Short case-based videos showing the stepwise application of the 2025 algorithms, plus pre-recorded talks introducing the guideline. Videos open on Vimeo or play directly.',
+  },
+  {
     id: 'other-guidelines',
     title: 'Other DAS guidelines',
     subtitle: 'ATI · extubation · obstetric · ICU · thyroid haematoma',
@@ -220,6 +230,9 @@ const collections = [
 //                          https:// URL). Tapping the document then opens the
 //                          PDF in a new tab instead of the page viewer; page
 //                          images, if present, are only used for the thumbnail.
+//   link         optional  Like `pdf` but for any other URL — a video on Vimeo,
+//                          a web page, an MP4. The row shows the type's label
+//                          (e.g. "Video") where the page count would be.
 //
 // TEMPLATE — copy this line, remove the leading //, and edit:
 //   { id: 'my-new-doc', collection: 'airbites', title: 'My new document', subtitle: 'One-line description', type: 'teaching', pages: 1, orientation: 'portrait' },
@@ -294,6 +307,27 @@ const documents = [
     pdf: 'https://das.uk.com/wp-content/uploads/2026/04/IPE-SIM_-Plan-C.pdf' },
   { id: 'airsim-ipe-plan-d', collection: 'airsim', title: 'IPE scenario: Plan D', subtitle: 'Interprofessional simulation · front-of-neck airway', type: 'simulation', plan: 'D', orientation: 'portrait',
     pdf: 'https://das.uk.com/wp-content/uploads/2026/04/IPE-SIM_-Plan-D.pdf' },
+
+  // ── AirClips & Talks ────────────────────────────────────────────────────────
+  // Source: das.uk.com/airclips (Plan A–D video pages) and das.uk.com/talks.
+  // Videos open in a new tab via `link`; thumbnails are in public/docs/.
+  // Plan C videos are "coming soon" on the DAS site — add them here when live.
+  { id: 'airclips-plan-a-introduction', collection: 'videos', title: 'Plan A – Introduction',           subtitle: 'AirClip · 1½ min', type: 'video', plan: 'A', orientation: 'landscape',
+    link: 'https://vimeo.com/1130630874/e35c847c6c' },
+  { id: 'airclips-plan-a-planning',     collection: 'videos', title: 'Plan A – Planning and strategy',  subtitle: 'AirClip · 2 min', type: 'video', plan: 'A', orientation: 'landscape',
+    link: 'https://vimeo.com/1130632654/dc6f4ea351' },
+  { id: 'airclips-plan-a-successful',   collection: 'videos', title: 'Plan A – Successful intubation',  subtitle: 'AirClip · 3 min', type: 'video', plan: 'A', orientation: 'landscape',
+    link: 'https://vimeo.com/1130631547/23940f1395' },
+  { id: 'airclips-plan-a-failed',       collection: 'videos', title: 'Plan A – Failed intubation',      subtitle: 'AirClip · 2 min · calling for expert help', type: 'video', plan: 'A', orientation: 'landscape',
+    link: 'https://vimeo.com/1132846486/09c15b6609' },
+  { id: 'airclips-plan-b',              collection: 'videos', title: 'Plan B – Supraglottic airway device', subtitle: 'AirClip · plays in the browser', type: 'video', plan: 'B', orientation: 'landscape',
+    link: 'https://das.uk.com/wp-content/uploads/2026/02/plan_b-720p.mp4' },
+  { id: 'airclips-plan-d',              collection: 'videos', title: 'Plan D – Front-of-neck airway',   subtitle: 'AirClip · 3 min', type: 'video', plan: 'D', orientation: 'landscape',
+    link: 'https://vimeo.com/1176183622/48d704f1c3' },
+  { id: 'talk-introduction-2025',       collection: 'videos', title: 'Introduction to the 2025 guidelines', subtitle: 'Pre-recorded talk · large file (140 MB)', type: 'video', orientation: 'landscape',
+    link: 'https://daswebsite.s3.eu-west-1.amazonaws.com/DAS%2BIntubation%2BGuidelines_presentation.mp4' },
+  { id: 'talk-whats-new-2025',          collection: 'videos', title: 'What’s new in the 2025 guidelines', subtitle: 'Pre-recorded talk', type: 'video', isNew: true, orientation: 'landscape',
+    link: 'https://das.uk.com/wp-content/uploads/2025/12/video1850929497.mp4' },
 
   // ── Other DAS guidelines ────────────────────────────────────────────────────
   // Source: das.uk.com/guidelines. Each guideline has two entries: the

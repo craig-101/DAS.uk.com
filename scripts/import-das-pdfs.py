@@ -10,6 +10,8 @@ and all written into public/docs/<document-id>/, where the app finds them:
              (for older guidelines that DAS publishes as images, not PDFs)
     THUMBS   PDF whose first page becomes the list thumbnail → thumb.jpg
              (for documents that open a PDF via the `pdf` field)
+    FRAMES   (video URL, seconds) → a frame grabbed with ffmpeg → thumb.jpg
+             (for documents that open a video via the `link` field)
     PDFS     PDF copied as-is → <filename>, for a local `pdf:` link
 
 Usage
@@ -100,8 +102,25 @@ IMAGES = {
     ],
 }
 
-# document id  →  PDF whose first page is rendered as thumb.jpg
+# AirClips on Vimeo: Vimeo's own poster frames (from its oEmbed API)
+VC = "https://i.vimeocdn.com/video"
+IMAGES.update({
+    "airclips-plan-a-introduction": [f"{VC}/2074384454-8f013fd661d58409bf5c78a9164efc5c7668044eb3938f69ce22fcfcf1469813-d_1280"],
+    "airclips-plan-a-planning":     [f"{VC}/2074386922-28e7f3a15751a35033874d65f40ef99113ec990381221c71c53181ead989f427-d_1280"],
+    "airclips-plan-a-successful":   [f"{VC}/2074385533-a8bc6ea78e57dc6c988a1e1f68d34369cd3a346a0934f7fc873e8e30b4420acf-d_1280"],
+    "airclips-plan-a-failed":       [f"{VC}/2077220050-6206261395cd8fe8bf0ddf673481e740a1f59dec379f79220078cc7ce84505a6-d_1280"],
+    "airclips-plan-d":              [f"{VC}/2137183753-a5981a176069dcae7d273ebaffef14d69898b62ee7bd36df31c76a745037ba44-d_1280"],
+})
+
+# document id  →  (video URL, seconds in) — one frame grabbed with ffmpeg as thumb.jpg
 S3 = "https://daswebsite.s3.eu-west-1.amazonaws.com"
+FRAMES = {
+    "airclips-plan-b":         (f"{UP}/2026/02/plan_b-720p.mp4", 8),
+    "talk-introduction-2025":  (f"{S3}/DAS%2BIntubation%2BGuidelines_presentation.mp4", 20),
+    "talk-whats-new-2025":     (f"{UP}/2025/12/video1850929497.mp4", 20),
+}
+
+# document id  →  PDF whose first page is rendered as thumb.jpg
 THUMBS = {
     # AirSim                             https://das.uk.com/airsim/
     "airsim-novice":     f"{UP}/2026/04/DAS-Novice-SIM-V2.0-17_04.pdf",
@@ -125,7 +144,7 @@ PDFS = {
     "algorithms-a4-set": (f"{UP}/2025/12/DAS-Algorhitms-2025-A4-PREP-PLAN_merge-3.pdf", "DAS-2025-algorithms-A4.pdf"),
 }
 
-ALL_IDS = list(dict.fromkeys([*SOURCES, *IMAGES, *THUMBS, *PDFS]))
+ALL_IDS = list(dict.fromkeys([*SOURCES, *IMAGES, *THUMBS, *FRAMES, *PDFS]))
 
 PAGE_FILE = re.compile(r"^page-\d+\.(png|jpe?g|webp)$", re.I)
 
@@ -175,6 +194,21 @@ def save_thumb(doc_id: str, pdf: Path, quality: int) -> None:
         d[0].get_pixmap(dpi=110, alpha=False).save(out / "thumb.jpg", jpg_quality=quality)
 
 
+def save_frame(doc_id: str, url: str, seconds: int) -> None:
+    """Grab one frame straight from the video URL (needs ffmpeg on the PATH)."""
+    import shutil
+    import subprocess
+    if not shutil.which("ffmpeg"):
+        raise RuntimeError("ffmpeg not installed — skipping video thumbnail")
+    out = DOCS / doc_id
+    out.mkdir(parents=True, exist_ok=True)
+    subprocess.run(
+        ["ffmpeg", "-loglevel", "error", "-y", "-ss", str(seconds), "-i", url,
+         "-frames:v", "1", "-vf", "scale=1280:-2", "-q:v", "3", str(out / "thumb.jpg")],
+        check=True, timeout=180,
+    )
+
+
 def copy_pdf(doc_id: str, pdf: Path, name: str) -> None:
     out = DOCS / doc_id
     out.mkdir(parents=True, exist_ok=True)
@@ -209,6 +243,10 @@ def main() -> None:
                 url = THUMBS[doc_id]
                 save_thumb(doc_id, download(url, cache), args.quality)
                 print(f"{doc_id:32s} thumbnail  ← {url.rsplit('/', 1)[-1]}")
+            if doc_id in FRAMES:
+                url, secs = FRAMES[doc_id]
+                save_frame(doc_id, url, secs)
+                print(f"{doc_id:32s} video frame  ← {url.rsplit('/', 1)[-1]}")
             if doc_id in PDFS:
                 url, name = PDFS[doc_id]
                 copy_pdf(doc_id, download(url, cache), name)

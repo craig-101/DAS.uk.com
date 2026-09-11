@@ -70,18 +70,20 @@ function hydrate(doc) {
     : Array.from({ length: doc.pages || 1 }, (_, i) => `/placeholder/${doc.id}/${i + 1}.svg`);
   // Thumbnail: explicit `thumb` in library.js → thumb.* in the folder → page 1.
   const thumb = doc.thumb ? assetUrl(doc.id, doc.thumb) : realThumb(doc.id) || pageUrls[0];
-  // Optional PDF: a document with `pdf` opens the PDF itself when tapped
-  // (page images, if any, are only used for the thumbnail).
+  // Optional `pdf` or `link`: the document opens that URL when tapped instead
+  // of the page viewer (page images, if any, are only used for the thumbnail).
   const pdf = doc.pdf ? assetUrl(doc.id, doc.pdf) : null;
-  const openPdf = !!pdf;
+  const link = pdf || (doc.link ? assetUrl(doc.id, doc.link) : null);
+  const opensLink = !!link;
   return {
     ...doc,
     pageUrls,
     pageCount: pageUrls.length,
     thumb,
     pdf,
-    openPdf,
-    href: openPdf ? pdf : `/docs/${doc.id}`,
+    opensLink,
+    linkLabel: pdf ? 'PDF' : lib.types[doc.type]?.label || 'Link',
+    href: opensLink ? link : `/docs/${doc.id}`,
     planInfo: doc.plan ? lib.plans[doc.plan] : null,
     typeInfo: lib.types[doc.type],
     collectionInfo: lib.collections.find((c) => c.id === doc.collection),
@@ -157,7 +159,7 @@ app.get('/docs/:id', (req, res) => {
   const raw = lib.documents.find((d) => d.id === req.params.id);
   if (!raw) return res.status(404).render('not-found', base({ tab: 'library' }));
   const doc = hydrate(raw);
-  if (doc.openPdf) return res.redirect(doc.pdf);
+  if (doc.opensLink) return res.redirect(doc.href);
   const siblings = docsIn(doc.collection);
   const idx = siblings.findIndex((d) => d.id === doc.id);
   res.render('viewer', base({
@@ -190,7 +192,7 @@ app.get('/api/library', (req, res) => {
       typeLabel: d.typeInfo.label, typeColor: d.typeInfo.color,
       plan: d.plan || null, planLabel: d.planInfo?.label || null, planColor: d.planInfo?.color || null,
       isNew: !!d.isNew, pageCount: d.pageCount, thumb: d.thumb, orientation: d.orientation || 'landscape',
-      href: d.href, openPdf: d.openPdf,
+      href: d.href, opensLink: d.opensLink, linkLabel: d.linkLabel,
       collection: d.collection, collectionTitle: d.collectionInfo?.title,
     })),
   });
