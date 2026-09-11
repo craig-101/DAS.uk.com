@@ -268,11 +268,16 @@ const documents = [
   { id: 'human-factors', collection: 'airbites', title: 'Human factors',                     subtitle: 'AirBite · 15-min session for all airway teams', type: 'teaching', isNew: true, orientation: 'portrait' },
 
   // ── AirDrills ───────────────────────────────────────────────────────────────
-  // Source: das.uk.com/airdrills (VEMS = Visually Enhanced Mental Simulation)
-  { id: 'airdrills-facilitator-guide',    collection: 'airdrills', title: 'AirDrills facilitator guide', subtitle: 'Setting up, running and debriefing', type: 'facilitator-guide', orientation: 'portrait' },
-  { id: 'airdrills-theatre',              collection: 'airdrills', title: 'AirDrills: Theatre',          subtitle: 'Unanticipated difficult airway · Plans A–D', type: 'drill', orientation: 'portrait' },
-  { id: 'airdrills-critical-care',        collection: 'airdrills', title: 'AirDrills: Critical care',    subtitle: 'Airway management on the ICU', type: 'drill', orientation: 'portrait' },
-  { id: 'airdrills-emergency-department', collection: 'airdrills', title: 'AirDrills: Emergency department', subtitle: 'Airway management in the ED', type: 'drill', orientation: 'portrait' },
+  // Source: das.uk.com/airdrills (VEMS = Visually Enhanced Mental Simulation).
+  // These open the DAS PDFs; the rendered pages in public/docs/ provide thumbnails.
+  { id: 'airdrills-facilitator-guide',    collection: 'airdrills', title: 'AirDrills facilitator guide', subtitle: 'Setting up, running and debriefing', type: 'facilitator-guide', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2026/04/Facilitator-User-Guide-VEMS-Air-Drill-final.pdf' },
+  { id: 'airdrills-theatre',              collection: 'airdrills', title: 'AirDrills: Theatre',          subtitle: 'Unanticipated difficult airway · Plans A–D', type: 'drill', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2026/04/DAS-2025-AirDrills-V2-final.pdf' },
+  { id: 'airdrills-critical-care',        collection: 'airdrills', title: 'AirDrills: Critical care',    subtitle: 'Airway management on the ICU', type: 'drill', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2026/04/DAS-2025-Critical-Care-AirDrills-13_04-compressed.pdf' },
+  { id: 'airdrills-emergency-department', collection: 'airdrills', title: 'AirDrills: Emergency department', subtitle: 'Airway management in the ED', type: 'drill', orientation: 'portrait',
+    pdf: 'https://das.uk.com/wp-content/uploads/2026/04/DAS-2025-Emergency-Department-AirDrills-13_04-compressed.pdf' },
   { id: 'airdrills-vems-pack',            collection: 'airdrills', title: 'Visual VEMS pack',            subtitle: 'Printable equipment & monitor cards for the drills', type: 'drill', orientation: 'portrait',
     pdf: 'https://das.uk.com/wp-content/uploads/2026/01/Airdrill-VEMS-All-in-One-.pdf' },
 
