@@ -369,7 +369,7 @@ const whatsNew = {
 // -----------------------------------------------------------------------------
 const app = {
   name: 'DAS Airway',
-  tagline: 'Difficult Airway Society · 2025',
+  tagline: 'Difficult Airway Society · 2025 Guidelines',
   disclaimer: 'This app supports but does not replace clinical judgement. Always refer to the current published DAS guidelines.',
 };
 

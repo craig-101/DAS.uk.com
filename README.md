@@ -27,8 +27,8 @@ The icon in the top-right of the library screen installs the app as a
 desktop or home-screen shortcut. Chrome, Edge and Android show a
 one-click prompt; Safari and Firefox get step-by-step instructions.
 Once installed it runs in its own window and works offline for anything
-you've already opened. App icons live in `public/icons/` (edit the SVGs
-and re-export the PNGs to rebrand).
+you've already opened. App icons in `public/icons/` are generated from
+the DAS logo by `scripts/make-icons.py` (`pip install pymupdf` first).
 
 ## Document images
 
