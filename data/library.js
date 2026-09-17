@@ -425,11 +425,13 @@ const whatsNew = {
 //   name        App name, shown in the header, About screen, browser tab and
 //               on placeholder pages.
 //   tagline     Small line under the name on the home and About screens.
+//   credit      Small line under the tagline, e.g. who developed the app.
 //   disclaimer  Footer text on the home and About screens.
 // -----------------------------------------------------------------------------
 const app = {
   name: 'DAS Airway',
   tagline: 'Difficult Airway Society · 2025 Guidelines',
+  credit: 'Developed by B. Hardy & C. Johnstone',
   disclaimer: 'This app supports but does not replace clinical judgement. Always refer to the current published DAS guidelines.',
 };
 
