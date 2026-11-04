@@ -2,9 +2,10 @@
 <header class="brand">
   <a class="brand__link" href="https://das.uk.com" target="_blank" rel="noopener" aria-label="Difficult Airway Society website (opens in a new tab)"><img class="brand__logo" src="/img/das-logo.png" alt="Difficult Airway Society" width="44" height="44"></a>
   <div>
-    <div class="brand__name"><%= app.name %></div>
+    <div class="brand__name"><%= app.name %> <span class="brand__beta"><%= app.status %></span></div>
     <div class="brand__tag"><%= app.tagline %></div>
     <div class="brand__credit"><%= app.credit %></div>
+    <a class="brand__feedback" href="mailto:<%= app.feedbackEmail %>?subject=<%= encodeURIComponent(app.name + ' feedback') %>">Feedback: <%= app.feedbackEmail %></a>
   </div>
   <button class="brand__install" type="button" data-install aria-label="Add to desktop" title="Add to desktop">
     <%- include('partials/icon', { name: 'add-desktop' }) %>
