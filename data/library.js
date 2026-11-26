@@ -428,6 +428,8 @@ const whatsNew = {
 //   credit      Small line under the tagline, e.g. who developed the app.
 //   status      Small badge beside the name, e.g. 'Beta'.
 //   feedbackEmail  Address behind the Feedback link in the header.
+//   joinUrl     'Join DAS' link on the sign-in page.
+//   accountUrl  Members' portal (VeryConnect) for password resets and account help.
 //   disclaimer  Footer text on the home and About screens.
 // -----------------------------------------------------------------------------
 const app = {
@@ -436,6 +438,8 @@ const app = {
   credit: 'Developed by B. Hardy & C. Johnstone',
   status: 'Beta',
   feedbackEmail: 'webmaster@das.uk.com',
+  joinUrl: 'https://das.uk.com/das-membership/#become-a-member',
+  accountUrl: 'https://members.das.uk.com/',
   disclaimer: 'This app supports but does not replace clinical judgement. Always refer to the current published DAS guidelines.',
 };
 

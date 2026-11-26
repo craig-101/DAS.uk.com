@@ -198,6 +198,14 @@ app.get('/download/:id', async (req, res) => {
   }
 });
 
+// Sign-in landing page. The button stays disabled until SSO_LOGIN_URL is set
+// (the VeryConnect SSO entry point, once DAS/VeryConnect provide it).
+const SSO_LOGIN_URL = /^https:\/\//.test(process.env.SSO_LOGIN_URL || '') ? process.env.SSO_LOGIN_URL : null;
+
+app.get('/login', (req, res) => {
+  res.render('login', base({ tab: null, signInUrl: SSO_LOGIN_URL }));
+});
+
 app.get('/search', (req, res) => {
   res.render('search', base({ tab: 'search', q: (req.query.q || '').toString() }));
 });

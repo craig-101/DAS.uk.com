@@ -1,0 +1,27 @@
+<%- include('partials/head', { title: 'Sign in' }) %>
+<main class="login">
+  <div class="login__card card">
+    <a class="login__logo" href="https://das.uk.com" target="_blank" rel="noopener" aria-label="Difficult Airway Society website (opens in a new tab)"><img src="/img/das-logo.png" alt="Difficult Airway Society" width="72" height="72"></a>
+    <div class="brand__name login__name"><%= app.name %> <span class="brand__beta"><%= app.status %></span></div>
+    <div class="brand__tag"><%= app.tagline %></div>
+
+    <h1 class="login__title">Sign in</h1>
+    <p class="login__lead">Use your Difficult Airway Society membership account.</p>
+
+    <% if (signInUrl) { %>
+      <a class="btn btn--primary btn--block" href="<%= signInUrl %>"><%- include('partials/icon', { name: 'lock', className: 'icon--sm' }) %>Sign in with DAS</a>
+    <% } else { %>
+      <button class="btn btn--primary btn--block" type="button" disabled aria-describedby="login-soon"><%- include('partials/icon', { name: 'lock', className: 'icon--sm' }) %>Sign in with DAS</button>
+      <p class="login__note" id="login-soon">Member sign-in is being set up. Until then, the library is open to everyone.</p>
+      <a class="btn btn--ghost btn--block" href="/">Continue to the library</a>
+    <% } %>
+
+    <ul class="login__links">
+      <li>Not a member? <a href="<%= app.joinUrl %>" target="_blank" rel="noopener">Join DAS</a></li>
+      <li>Forgotten your password? <a href="<%= app.accountUrl %>" target="_blank" rel="noopener">Manage your account</a></li>
+      <li>Questions or feedback? <a href="mailto:<%= app.feedbackEmail %>?subject=<%= encodeURIComponent(app.name + ' sign-in') %>"><%= app.feedbackEmail %></a></li>
+    </ul>
+  </div>
+  <p class="disclaimer"><%- include('partials/icon', { name: 'alert', className: 'icon--sm' }) %><%= app.disclaimer %></p>
+</main>
+<%- include('partials/foot') %>
